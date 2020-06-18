@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head lang="en">
+        <meta charset="UTF-8" />
+        <title th:text="'Profile - ' + ${account.name}">Profile</title>
+    </head>
+    <body>
+        <h1 th:text="${account.name}">Name</h1>
+        <div th:text="${account.username}">Username</div>
+        
+        <h2>Skills</h2>
+        <ul>
+            <li th:each="skillRating : ${account.skillRatings}">
+                <span th:text="${skillRating.skill.name}">Skill name</span>
+                <span th:text="${skillRating.rating}">Skill rating</span>
+                <form method="POST" th:action="@{/accounts/{slug}/skills/{skillId}(slug=${account.slug},skillId=${skillRating.skill.id})}">
+                    <input type="hidden" name="value" value="vote"/>
+                    <input type="submit" value="Upvote"/>
+                </form>
+            </li>
+        </ul>
+        
+        <h3>Add a new skill</h3>
+        <form method="POST" th:action="@{/accounts/{slug}/skills(slug=${account.slug})}">
+            <label for="skillname">Skill</label>
+            <input type="text" name="skillName"/>
+            <input type="submit" value="Add new skill"/>
+        </form>
+    </body>
+</html>
