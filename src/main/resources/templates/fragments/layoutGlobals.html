@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head th:fragment="head(title)">
+        <meta charset="UTF-8" />
+        <title th:text="${title}">Title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <header th:fragment="header(user)">
+            <nav>
+                <ul>
+                    <li>
+                        <a th:href="@{/messages}">Home</a>
+                    </li>
+                    <li sec:authorize="isAuthenticated()">
+                        <a th:href="@{/accounts/{slug}(slug=${user.slug})}">Profile</a>
+                    </li>
+                    <li sec:authorize="isAuthenticated()">
+                        <a th:href="@{/logout}">Logout</a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+
+    </body>
+</html>

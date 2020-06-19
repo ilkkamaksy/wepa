@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class RegisterController {
 
     @Autowired
-    AccountRepository accountRepository;
+    private AccountRepository accountRepository;
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/register")
     public String getRegisterForm() {

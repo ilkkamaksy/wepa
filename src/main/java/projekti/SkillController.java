@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class SkillController {
 
     @Autowired
-    AccountRepository accountRepository;
+    private AccountRepository accountRepository;
     
     @Autowired
-    SkillRepository skillRepository;
+    private SkillRepository skillRepository;
     
     @Autowired
-    SkillRatingRepository skillRatingRepository;
+    private SkillRatingRepository skillRatingRepository;
 
     @Transactional
     @PostMapping("/accounts/{accountSlug}/skills")

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="fragments/layoutGlobals :: head(title='Home')"></head>
+    <body>
+        <header th:replace="fragments/layoutGlobals :: header(user=${account})">
+            <p>menu</p>
+        </header>
+        
+        <h1>Message board</h1>
+        
+        <div th:replace="fragments/messagePartials :: messageForm">
+            messageForm
+        </div>
+        
+        <div th:replace="fragments/messagePartials :: messageFeed(messages=${messages}, user=${account})">
+            messages
+        </div>
+        
+    </body>
+</html>

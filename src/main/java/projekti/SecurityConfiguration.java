@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+@Profile("production")
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -21,9 +22,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // poistetaan csrf-tarkistus käytöstä h2-konsolin vuoksi
-        http.csrf().disable();
-        // sallitaan framejen käyttö
         http.headers().frameOptions().sameOrigin();
 
         http.authorizeRequests()
@@ -39,6 +37,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-            return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder();
     }
 }

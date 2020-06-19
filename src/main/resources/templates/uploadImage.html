@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="fragments/layoutGlobals :: head(title='Upload image')"></head>
+    <body>
+        <header th:replace="fragments/layoutGlobals :: header(user=${account})">
+            <p>menu</p>
+        </header>
+        
+        <div th:if="${message}">
+            <h1 th:text="${message}"/>
+	</div>
+
+	<div>
+            <form method="POST" enctype="multipart/form-data" th:action="@{/accounts/{slug}/images(slug=${account.slug})}">
+                <label for="file">File to upload</label>
+                <input type="file" name="file" />
+                <input type="submit" value="Upload" />
+            </form>
+	</div>
+
+	<div>
+            <ul>
+                <li th:each="file : ${files}">
+                    <a th:href="${file}" th:text="${file}" />
+                </li>
+            </ul>
+	</div>
+
+    </body>
+</html>
