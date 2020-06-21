@@ -1,5 +1,7 @@
-package projekti;
+package projekti.util;
 
+import projekti.user.AccountRepository;
+import projekti.user.Account;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

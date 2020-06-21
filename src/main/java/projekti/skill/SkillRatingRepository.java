@@ -1,4 +1,4 @@
-package projekti;
+package projekti.skill;
 
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;

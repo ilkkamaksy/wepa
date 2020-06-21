@@ -1,5 +1,6 @@
-package projekti;
+package projekti.user;
 
+import projekti.feed.Message;
 import java.util.HashMap;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -20,6 +21,9 @@ import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.springframework.data.jpa.domain.AbstractPersistable;
+import projekti.feed.Comment;
+import projekti.file.ProfileImage;
+import projekti.skill.SkillRating;
 
 @Entity
 @Data
@@ -42,6 +46,9 @@ public class Account extends AbstractPersistable<Long> {
     
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Message> messages;
+    
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Comment> comments;
     
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> authorities;

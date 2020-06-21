@@ -1,5 +1,7 @@
-package projekti;
+package projekti.user;
 
+import projekti.user.AccountRepository;
+import projekti.user.Account;
 import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;

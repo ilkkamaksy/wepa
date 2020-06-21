@@ -1,5 +1,6 @@
-package projekti;
+package projekti.file;
 
+import projekti.user.Account;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;

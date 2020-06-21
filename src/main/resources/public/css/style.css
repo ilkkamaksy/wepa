@@ -1,0 +1,70 @@
+.home .content-wrapper {
+    background-image: url(/img/office-space.jpg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.home .content-wrapper:after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.4);
+}
+
+.home-content {
+    position: relative;
+    z-index: 10;
+    color: #fff;
+    text-align: center;
+    max-width: 800px;
+    padding: 1em;
+    margin: 0 auto;
+}
+
+.home-content h1 {
+    font-size: 4em;
+}
+
+.home-content p {
+    font-size: 1.4em;
+    font-weight: 300;
+}
+
+.page.register .content-wrapper {
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #00c4a7;
+}
+
+.register-content--container {
+    width: 100%;
+    max-width: 600px;
+    padding: 2em;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 6px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+}
+
+.comment-content--container {
+    background-color: #eee;
+}
+
+.comment-meta--avatar img,
+.message-meta--avatar img {
+    max-width: 50px;
+}
+

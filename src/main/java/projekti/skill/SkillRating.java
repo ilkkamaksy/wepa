@@ -1,5 +1,6 @@
-package projekti;
+package projekti.skill;
 
+import projekti.user.Account;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;

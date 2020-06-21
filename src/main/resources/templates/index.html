@@ -1,13 +1,16 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head th:replace="fragments/layoutGlobals :: head(title='Home')"></head>
-    <body>
-        <header th:replace="fragments/layoutGlobals :: header">
-            <p>menu</p>
-        </header>
-
-        <h1 th:text="${'Hello ' + message}">Hello world</h1>
-
-
+    <body class="home">
+        <div class="content-wrapper" th:style="'background-image: url(/img/office-space.jpg)'">
+            <div class="home-content content">
+                <h1 class="has-text-white">Networking and such :)</h1>
+                <p>Hey great to see you! This is a platform for building networks and sharing your fancy professional ideas and stuff. Go ahead and log in or sign up if you haven't done that already. Cool, see you on the other side!</p>
+                <a class="button is-primary" th:href="@{/register}">Sign up</a>
+                <a class="button  is-primary is-inverted is-outlined" th:href="@{/login}">Log in</a>
+            </div>
+            
+        </div>
+        
     </body>
 </html>

@@ -1,5 +1,9 @@
-package projekti;
+package projekti.file;
 
+import projekti.file.ProfileImage;
+import projekti.file.ProfileImageRepository;
+import projekti.user.AccountRepository;
+import projekti.user.Account;
 import projekti.storage.StorageFileNotFoundException;
 import projekti.storage.StorageService;
 import java.io.IOException;
@@ -22,6 +26,7 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import projekti.storage.*;
+import projekti.user.AccountService;
 
 @Controller
 public class FileUploadController {
@@ -29,7 +34,7 @@ public class FileUploadController {
     private final StorageService storageService;
     
     @Autowired
-    AccountRepository accountRepository;
+    AccountService accountService;
     
     @Autowired
     ProfileImageRepository profileImageRepository;
@@ -39,9 +44,9 @@ public class FileUploadController {
         this.storageService = storageService;
     }
 
-    @GetMapping("/accounts/{slug}/images/upload")
+    @GetMapping("/users/{slug}/images/upload")
     public String listUploadedFiles(Model model, @PathVariable String slug) throws IOException {
-        model.addAttribute("account", this.accountRepository.findBySlug(slug));
+        model.addAttribute("user", this.accountService.getCurrentUserAccount());
         
         model.addAttribute("files", storageService.loadAll().map(
             path -> MvcUriComponentsBuilder.fromMethodName(
@@ -66,22 +71,22 @@ public class FileUploadController {
                         "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
-    @PostMapping("/accounts/{slug}/images")
+    @PostMapping("/users/{slug}/images")
     public String handleFileUpload(@PathVariable String slug, @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
 
         ProfileImage profileImage = new ProfileImage();
         profileImage.setImageUrl(file.getOriginalFilename());
         
-        Account account = this.accountRepository.findBySlug(slug);
+        Account account = this.accountService.getCurrentUserAccount();
         account.setProfileImage(profileImage);
-        this.accountRepository.save(account);
+        this.accountService.saveUserAccount(account);
         
         storageService.store(file);
         
         redirectAttributes.addFlashAttribute("message",
                         "You successfully uploaded " + file.getOriginalFilename() + "!");
 
-        return "redirect:/accounts/" + slug;
+        return "redirect:/users/" + slug;
     }
 
     @ExceptionHandler(StorageFileNotFoundException.class)

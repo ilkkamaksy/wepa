@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head th:replace="fragments/layoutGlobals :: head(title='Upload image')"></head>
     <body>
-        <header th:replace="fragments/layoutGlobals :: header(user=${account})">
+        <header th:replace="fragments/layoutGlobals :: header(user=${user})">
             <p>menu</p>
         </header>
         
@@ -11,7 +11,7 @@
 	</div>
 
 	<div>
-            <form method="POST" enctype="multipart/form-data" th:action="@{/accounts/{slug}/images(slug=${account.slug})}">
+            <form method="POST" enctype="multipart/form-data" th:action="@{/users/{slug}/images(slug=${user.slug})}">
                 <label for="file">File to upload</label>
                 <input type="file" name="file" />
                 <input type="submit" value="Upload" />

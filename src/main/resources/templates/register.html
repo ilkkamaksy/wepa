@@ -1,27 +1,76 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head th:replace="fragments/layoutGlobals :: head(title='Register')"></head>
-    <body>
+    <body class="page register">
+        <div class="content-wrapper">
+            <div class="register-content--container">
+                <div class="content">
+                    <h1>Register</h1>
+
+                     <form method="POST" th:action="@{/register}">
+                         <div class="field">
+                             <label class="label" for="username">Username</label>
+                             <div class="control has-icons-left has-icons-right">
+                                 <input class="input" placeholder="username" type="text" name="username"/>
+                                 <span class="icon is-small is-left">
+                                     <i class="fas fa-user"></i>
+                                 </span>
+                                 <span class="icon is-small is-right">
+                                     <i class="fas fa-check"></i>
+                                 </span>
+                             </div>
+                             <p class="help is-success">This username is available</p>
+                         </div>
+
+                         <div class="field">
+                             <label class="label" for="fullname">Full name</label>
+                             <div class="control has-icons-left has-icons-right">
+                                 <input class="input" placeholder="fullname" type="text" name="fullname"/>
+                                 <span class="icon is-small is-left">
+                                     <i class="fas fa-user"></i>
+                                 </span>
+                                 <span class="icon is-small is-right">
+                                     <i class="fas fa-check"></i>
+                                 </span>
+                             </div>
+                             <p class="help is-success">This username is available</p>
+                         </div>
+
+                         <div class="field">
+                             <label class="label" for="slug">Slug</label>
+                             <div class="control has-icons-left has-icons-right">
+                                 <input class="input" placeholder="slug" type="text" name="slug"/>
+                                 <span class="icon is-small is-left">
+                                     <i class="fas fa-link"></i>
+                                 </span>
+                                 <span class="icon is-small is-right">
+                                     <i class="fas fa-check"></i>
+                                 </span>
+                             </div>
+                             <p class="help is-success">This slug is available</p>
+                         </div>
+
+                         <div class="field">
+                             <label class="label" for="password">password</label>
+                             <div class="control has-icons-left has-icons-right">
+                                 <input class="input" placeholder="password" type="password" name="password"/>
+                                 <span class="icon is-small is-left">
+                                     <i class="fas fa-secret"></i>
+                                 </span>
+                                 <span class="icon is-small is-right">
+                                     <i class="fas fa-check"></i>
+                                 </span>
+                             </div>
+                         </div>
+
+
+
+                         <input class="button is-primary" type="submit" value="Register!"/>
+                     </form>     
+                </div>
+            </div> 
+        </div>
         
-
-        <h1>Register</h1>
-
-        <form method="POST" th:action="@{/register}">
-            <label for="username">Username</label>
-            <input type="text" name="username"/>
-            
-            <label for="fullname">Full name</label>
-            <input type="text" name="fullname"/>
-            
-            <label for="slug">Profile slug</label>
-            <input type="text" name="slug"/>
-            
-            <label for="password">Password</label>
-            <input type="password" name="password"/>
-
-            <input type="submit" value="Register!"/>
-        </form>
-
     </body>
 </html>
 

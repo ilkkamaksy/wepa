@@ -1,5 +1,7 @@
-package projekti;
+package projekti.skill;
 
+import projekti.user.AccountRepository;
+import projekti.user.Account;
 import java.util.Arrays;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +12,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import projekti.user.AccountService;
 
 @Controller
 public class SkillController {
 
     @Autowired
-    private AccountRepository accountRepository;
+    private AccountService accountService;
     
     @Autowired
     private SkillRepository skillRepository;
@@ -24,8 +27,8 @@ public class SkillController {
     private SkillRatingRepository skillRatingRepository;
 
     @Transactional
-    @PostMapping("/accounts/{accountSlug}/skills")
-    public String addNewSkill(@PathVariable String accountSlug, @RequestParam String skillName) {
+    @PostMapping("/users/{userSlug}/skills")
+    public String addNewSkill(@PathVariable String userSlug, @RequestParam String skillName) {
 
         Skill skill = skillRepository.findByName(skillName);
         if (skill == null) {
@@ -34,19 +37,19 @@ public class SkillController {
             skill = this.skillRepository.save(skill);
         }
         
-        Account account = accountRepository.findBySlug(accountSlug);
+        Account account = this.accountService.getAccountBySlug(userSlug);
         this.skillRatingRepository.save(new SkillRating(skill, account, 0));
-        return "redirect:/accounts/" + accountSlug;
+        return "redirect:/users/" + userSlug;
     }
     
-    @PostMapping("/accounts/{accountSlug}/skills/{skillId}")
-    public String addSkillRating(@PathVariable String accountSlug, @PathVariable Long skillId) {
-        Account account = accountRepository.findBySlug(accountSlug);
-        SkillRating skillRating = this.skillRatingRepository.findByAccountIdAndSkillId(account.getId(), skillId);
-        skillRating.setRating(skillRating.getRating() + 1);
+    @PostMapping("/users/{userSlug}/skills/{skillId}")
+    public String addSkillRating(@PathVariable String userSlug, @PathVariable Long skillId) {
+        Account user = this.accountService.getAccountBySlug(userSlug);
         
+        SkillRating skillRating = this.skillRatingRepository.findByAccountIdAndSkillId(user.getId(), skillId);
+        skillRating.setRating(skillRating.getRating() + 1);
         this.skillRatingRepository.save(skillRating);
         
-        return "redirect:/accounts/" + accountSlug;
+        return "redirect:/users/" + userSlug;
     }
 }
