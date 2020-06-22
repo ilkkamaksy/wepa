@@ -16,4 +16,5 @@ public interface FriendRepository extends JpaRepository<Friend, Long> {
     countQuery = "SELECT count(*) FROM Friend WHERE account_id = ?1 OR friend_id = ?1",
     nativeQuery = true)
     List<Friend> findAllByAccountId(Long accountId);
+    
 }

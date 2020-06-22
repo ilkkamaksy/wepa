@@ -48,7 +48,7 @@ public class FileUploadController {
 
     @GetMapping("/users/{slug}/images/upload")
     public String listUploadedFiles(Model model, @PathVariable String slug) throws IOException {
-        model.addAttribute("user", this.accountService.getCurrentUserAccount());
+        model.addAttribute("currentUser", this.accountService.getCurrentUserAccount());
         
         model.addAttribute("files", storageService.loadAll().map(
             path -> MvcUriComponentsBuilder.fromMethodName(
