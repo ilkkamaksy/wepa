@@ -59,12 +59,8 @@
     box-shadow: 0 0 20px rgba(0,0,0,0.2);
 }
 
-.comment-content--container {
-    background-color: #eee;
-}
 
-.comment-meta--avatar img,
-.message-meta--avatar img {
-    max-width: 50px;
+.image.is-400x400 {
+    height: 400px;
+    width: 400px;
 }
-

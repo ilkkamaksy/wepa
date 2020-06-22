@@ -2,19 +2,22 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head th:replace="fragments/layoutGlobals :: head(title='Home')"></head>
     <body>
-        <header th:replace="fragments/layoutGlobals :: header(user=${user})">
+        <header th:replace="fragments/layoutGlobals :: header(currentUser=${currentUser})">
             <p>menu</p>
         </header>
         
-        <h1>Message board</h1>
-        
-        <div th:replace="fragments/feedPartials :: messageForm">
-            messageForm
+        <div class="container">
+            <div class="tile is-ancestor">
+                <div class="tile is-parent is-child box">
+                    <div th:replace="fragments/messageForm :: messageForm">
+                        messageForm
+                    </div>
+
+                    <div th:replace="fragments/feedPartials :: messageFeed(messages=${messages})">
+                        messages
+                    </div>        
+                </div>
+            </div>
         </div>
-        
-        <div th:replace="fragments/feedPartials :: messageFeed(messages=${messages})">
-            messages
-        </div>
-        
     </body>
 </html>

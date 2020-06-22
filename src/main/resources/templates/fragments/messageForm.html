@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Comment form</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+
+    <body>
+        <div class="message-form" th:fragment="messageForm">
+            <h2 class="title is-4 is-spaced bd-anchor-title">Post a message</h2>
+            <form method="POST" th:action="@{/messages}">
+                <div class="field">
+                    <label for="messageContent" class="label">Your message</label>
+                    <div class="control">
+                        <textarea class="textarea" name="messageContent" rows="4" cols="50"></textarea>
+                    </div>
+                </div>
+                <div class="control">
+                    <input class="button is-primary" type="submit" value="Post"/>
+                 </div>
+                
+            </form>
+        </div>
+    </body>
+</html>

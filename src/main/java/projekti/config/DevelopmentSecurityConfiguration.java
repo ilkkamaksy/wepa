@@ -37,9 +37,8 @@ public class DevelopmentSecurityConfiguration extends WebSecurityConfigurerAdapt
 
         http.authorizeRequests()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                .antMatchers("/", "/callback", "/login**", "/webjars/**", "/error**", "/static/**").permitAll() 
                 .antMatchers("/h2-console", "/h2-console/**").permitAll()
-                .antMatchers("/register").permitAll()
+                .antMatchers("/", "/register", "/img/**", "/images/**", "/public/**").permitAll()
                 .anyRequest().authenticated().and()
                 .formLogin().permitAll().and()
                 .logout().permitAll();

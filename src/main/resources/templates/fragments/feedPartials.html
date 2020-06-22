@@ -9,83 +9,86 @@
         
         <div class="message-feed--container" th:fragment="messageFeed(messages)">
             <div th:each="message : ${messages}">
-                <div th:replace="fragments/feedPartials :: messageContent(message=${message})">
+                <div th:replace="fragments/feedPartials :: messageContainer(item=${message})">
                     messageContent
                 </div>
-
-                <div class="comments-container">
+            </div>
+        </div>
+        
+        <div class="message-content--container" th:fragment="messageContainer(item)">
+            <article class="media">
+                <figure class="media-left" th:replace="fragments/feedPartials :: mediaLeft(item=${item})">
+                   Image
+                </figure>
+                <div class="media-content">
+                    <div class="content" th:replace="fragments/feedPartials :: messageContent(item=${item})">
+                        Message Content
+                    </div>
+                    <nav class="level is-mobile" th:replace="fragments/feedPartials :: messageNav(item=${item})">
+                        Message Nav
+                    </nav>
                     <div th:each="comment : ${message.comments}">
-                        <div th:replace="fragments/feedPartials :: commentContent(comment=${comment})">
+                        <div th:replace="fragments/feedPartials :: commentContainer(item=${comment})">
                             commentContent
                         </div>
                     </div>
-                    <div th:replace="fragments/feedPartials :: commentForm(parentMessage=${message})">
+                    <div th:replace="fragments/commentForm :: commentForm(parent=${message})">
                         commentForm
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="message-content--container" th:fragment="messageContent(message)">
-            <div class="message-content--text" th:text="${message.content}">msg</div>
-            <div class="message-meta--container">
-                <div class="message-meta--item">
-                    <span class="message-meta--published" th:text="${#temporals.format(message.pubDateTime, 'dd.MM.yyyy HH:mm')}">pubDateTime</span>
-                </div>
-                <div class="message-meta--item">
-                    <a class="message-meta--avatar" th:href="@{/users/{slug}(slug=${message.user.slug})}">
-                        <img
-                            src="../public/img/profile-placeholder.jpg"
-                            th:src="${message.user.profileImage != null} ? @{/files/{profileImageUrl}(profileImageUrl=${message.user.profileImage.imageUrl})} : @{/img/profile-placeholder.jpg}" 
-                            th:alt="'Profile image of ' + ${message.user.name}" />
-                    </a>    
-                </div>
-                <div class="message-meta--item">
-                    <a class="message-meta--author-url" th:text="${message.user.name}" th:href="@{/users/{slug}(slug=${message.user.slug})}">author</a>    
-                </div>
-            </div>
-            
+                </div>        
+            </article>
         </div>
         
-        <div class="comment-content--container" th:fragment="commentContent(comment)">
-            <div class="comment-content--text" th:text="${comment.content}">cmt</div>
-            <div class="comment-meta--container">
-                <div class="comment-meta--item">
-                    <span class="comment-meta--published" th:text="${#temporals.format(comment.pubDateTime, 'dd.MM.yyyy HH:mm')}">pubDateTime</span>
+        <div class="comment-content--container" th:fragment="commentContainer(item)">
+            <article class="media">
+                <figure class="media-left" th:replace="fragments/feedPartials :: mediaLeft(item=${item})">
+                   Image
+                </figure>
+                <div class="media-content">
+                    <div class="content" th:replace="fragments/feedPartials :: messageContent(item=${item})">
+                        Message Content
+                    </div>
+                    <nav class="level is-mobile" th:replace="fragments/feedPartials :: messageNav(item=${item})">
+                        Message Nav
+                    </nav>
                 </div>
-                <div class="comment-meta--item">
-                    <a class="comment-meta--avatar" th:href="@{/users/{slug}(slug=${comment.user.slug})}">
-                        <img
-                            src="../public/img/profile-placeholder.jpg"
-                            th:src="${comment.user.profileImage != null} ? @{/files/{profileImageUrl}(profileImageUrl=${comment.user.profileImage.imageUrl})} : @{/img/profile-placeholder.jpg}" 
-                            th:alt="'Profile image of ' + ${comment.user.name}" />
-                    </a>    
-                </div>
-                <div class="comment-meta--item">
-                    <a class="comment-meta--author-url" th:text="${comment.user.name}" th:href="@{/users/{slug}(slug=${comment.user.slug})}">author</a>    
-                </div>
-                
+            </article>
+        </div>
+        
+        
+        <figure class="media-left" th:fragment="mediaLeft(item)">
+            <p class="image is-64x64">
+                <a class="message-meta--avatar" th:href="${item instanceof T(projekti.model.Message)} ? @{/users/{slug}(slug=${message.user.slug})} : @{/users/{slug}(slug=${comment.user.slug})}">
+                    <img
+                        src="../public/img/profile-placeholder.jpg"
+                        th:src="${item.user.profileImage != null} ? @{/files/{profileImageUrl}(profileImageUrl=${item.user.profileImage.imageUrl})} : @{/img/profile-placeholder.jpg}" 
+                        th:alt="'Profile image of ' + ${item.user.name}" />
+                </a>    
+            </p>
+        </figure>        
+        
+        <div class="content" th:fragment="messageContent(item)">
+            <p>
+                <a class="message-meta--author-url" th:text="${item.user.name}" th:href="@{/users/{slug}(slug=${item.user.slug})}">author</a>
+                <br>
+                <span class="message-meta--published" th:text="${#temporals.format(item.pubDateTime, 'dd.MM.yyyy HH:mm')}">pubDateTime</span>
+            </p>
+            <div class="message-content--text" th:text="${item.content}">cmt</div>
+        </div>
+        
+        <nav class="level is-mobile" th:fragment="messageNav(item)">
+            <div class="level-left">
+              <a class="level-item">
+                   <span class="icon is-small"><i class="fas fa-reply"></i></span> Comment
+              </a>
+              <div class="level-item">
+                <form method="POST" th:action="${item instanceof T(projekti.model.Message)} ? @{/messages/{id}/upvotes(id=${item.id})} : @{/comments/{id}/upvotes(id=${item.id})}"> 
+                  <input th:if="${#lists.size(item.upVotes.?[user.username == #authentication.getPrincipal().getUsername()]) == 0}" type="submit" value="upvote"/>
+                </form>
+                  <span class="icon is-small"><i class="fas fa-heart"></i></span> <span th:if="${#lists.size(item.upVotes)} > 0" class="message-upvote-count" th:text="${#lists.size(item.upVotes) + ' upvotes'}">voteCount</span>
+              </div>
             </div>
-            
-        </div>
+        </nav>
         
-        <div class="message-form" th:fragment="messageForm">
-            <h2>Post a message</h2>
-            <form method="POST" th:action="@{/messages}">
-                <label for="messageContent">Your message</label>
-                <textarea name="messageContent" rows="4" cols="50"></textarea>
-                <input type="submit" value="Post"/>
-            </form>
-        </div>
-        
-        <div class="comment-form" th:fragment="commentForm(parentMessage)">
-            <h2>Reply</h2>
-            <form method="POST" th:action="@{/messages/{id}/comment(id=${message.id})}">
-                <label for="messageContent">Your message</label>
-                <textarea name="messageContent" rows="4" cols="50"></textarea>
-                <input type="submit" value="Reply"/>
-            </form>
-        </div>
-
     </body>
 </html>

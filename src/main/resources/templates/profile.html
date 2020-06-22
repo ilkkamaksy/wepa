@@ -2,44 +2,72 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head th:replace="fragments/layoutGlobals :: head(title='Profile - ' + ${user.name})"></head>
     <body>
-        <header th:replace="fragments/layoutGlobals :: header(user=${user})">
+        <header th:replace="fragments/layoutGlobals :: header(currentUser=${currentUser})">
             <p>menu</p>
         </header>
-        <h1 th:text="${user.name}">Name</h1>
-                
-        <div class="profile-image">
-            <img
-                src="../public/img/profile-placeholder.jpg"
-                th:src="${user.profileImage != null} ? @{/files/{profileImageUrl}(profileImageUrl=${user.profileImage.imageUrl})} : @{/img/profile-placeholder.jpg}" 
-                th:alt="'Profile image of ' + ${user.name}" />
-        </div>
-        <div><a th:href="@{/users/{slug}/images/upload(slug=${user.slug})}">Change profile image</a></div>
         
-        
-        <h2>Skills</h2>
-        <ul>
-            <li th:each="skillRating : ${user.skillRatings}">
-                <span th:text="${skillRating.skill.name}">Skill name</span>
-                <span th:text="${skillRating.rating}">Skill rating</span>
-                <div th:if="${#authentication.getPrincipal().getUsername()} != ${user.username}" class="skill-actions">
-                    <form method="POST" th:action="@{/users/{slug}/skills/{skillId}(slug=${user.slug},skillId=${skillRating.skill.id})}">
-                        <input type="hidden" name="value" value="vote"/>
-                        <input type="submit" value="Upvote"/>
-                    </form>
+        <div class="container">
+            <div class="tile is-ancestor">
+                <div class="tile is-parent is-child">
+                    <div class="card">
+                        <div class="card-image">
+                          <figure class="image is-4by3">
+                            <img
+                                src="../public/img/profile-placeholder.jpg"
+                                th:src="${user.profileImage != null} ? @{/files/{profileImageUrl}(profileImageUrl=${user.profileImage.imageUrl})} : @{/img/profile-placeholder.jpg}" 
+                                th:alt="'Profile image of ' + ${user.name}" />
+                          </figure>
+                        </div>
+                        <div class="card-content">
+
+                            <p class="title is-4" th:text="${user.name}">Full Name</p>
+                            <p class="subtitle is-6"><a th:href="@{/users/{slug}/images/upload(slug=${user.slug})}">Change profile image</a></p>
+
+                            <aside class="menu">
+                                <p class="menu-label">
+                                    Skills
+                                </p>
+
+                                <ul class="list">
+                                    <li th:each="skillRating : ${user.skillRatings}">
+                                        <span th:text="${skillRating.skill.name}">Skill name</span>
+                                        <span th:text="${skillRating.rating}">Skill rating</span>
+                                        <div th:if="${#authentication.getPrincipal().getUsername()} != ${user.username}" class="skill-actions">
+                                            <form method="POST" th:action="@{/users/{slug}/skills/{skillId}(slug=${user.slug},skillId=${skillRating.skill.id})}">
+                                                <input type="hidden" name="value" value="vote"/>
+                                                <input type="submit" value="Upvote"/>
+                                            </form>
+                                        </div>
+                                    </li>
+                                </ul>
+
+                                <div th:if="${currentUser.id} == ${user.id}" class="skill-form">
+                                    <h2 class="title is-5 is-spaced bd-anchor-title">Add a new skill</h2>
+                                    <form method="POST" th:action="@{/users/{slug}/skills(slug=${user.slug})}">
+                                        <div class="field">
+                                            <label for="skillname" class="label">Skill</label>
+                                            <div class="control">
+                                                <input type="text" name="skillName"/>
+                                            </div>
+                                        </div>
+                                        <div class="control">
+                                            <input class="button is-primary" type="submit" value="Add new skill"/>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </aside>        
+                        </div>
+                    </div>
                 </div>
-            </li>
-        </ul>
-        
-        <h3>Add a new skill</h3>
-        <form method="POST" th:action="@{/users/{slug}/skills(slug=${user.slug})}">
-            <label for="skillname">Skill</label>
-            <input type="text" name="skillName"/>
-            <input type="submit" value="Add new skill"/>
-        </form>
-        
-        
-        <div th:replace="fragments/feedPartials :: messageFeed(messages=${messages})">
-            messages
+                
+                <div class="tile is-parent is-8 is-child box">
+                    <h2 class="title is-4 is-spaced bd-anchor-title">Activity</h2>
+                    <div th:replace="fragments/feedPartials :: messageFeed(messages=${messages})">
+                        messages
+                    </div>
+                </div>
+            </div>    
         </div>
     </body>
 </html>
