@@ -42,7 +42,7 @@ public class RegisterController {
         account.setAuthorities(Arrays.asList("USER"));
         accountRepository.save(account);
         
-        return "redirect:/accounts/" + account.getSlug();
+        return "redirect:/users/" + account.getSlug();
     }
 
 }

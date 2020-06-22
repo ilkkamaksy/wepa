@@ -46,7 +46,7 @@ public class SkillController {
         return "redirect:/users/" + userSlug;
     }
     
-    @PostMapping("/users/{userSlug}/skills/{skillId}")
+    @GetMapping("/users/{userSlug}/skills/{skillId}")
     public String addSkillRating(@PathVariable String userSlug, @PathVariable Long skillId) {
         Account user = this.accountService.getAccountBySlug(userSlug);
         

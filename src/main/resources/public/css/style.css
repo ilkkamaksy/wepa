@@ -40,9 +40,10 @@
     font-weight: 300;
 }
 
+/* Register */
 .page.register .content-wrapper {
     height: 100vh;
-    height: calc(var(--vh, 1vh) * 100);
+    height: calc(var(--vh, 1vh) * 100 - 56px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -59,8 +60,107 @@
     box-shadow: 0 0 20px rgba(0,0,0,0.2);
 }
 
-
+/* Custom image size */
 .image.is-400x400 {
     height: 400px;
     width: 400px;
+}
+
+/* Feed */
+section.section.section--feed-form {
+    padding: 2rem 1.5rem 0;
+}
+.message-form {
+    background: #f7f7f7;
+    padding: 2rem;
+}
+
+/* message meta */
+.message-meta--published {
+    font-size: .8em;
+    color: #666;
+}
+
+/* Message nav */
+.media-content nav {
+    font-size: .9em;
+    color: #666;
+}
+.media-content nav .message-action {
+    margin-right: 1em;
+}
+/* Comments */
+.comment-content--container {
+    padding-bottom: .5rem;
+    padding-top: 0.5rem;
+}
+
+.message-feed--container .comment-form {
+    background: #fafafa;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    margin-top: 1rem;
+    border-radius: 4px;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+
+/* Profile */
+.tile.is-parent.is-8.is-child.box.activity-feed--container {
+    padding: 2rem;
+    box-shadow: none;
+    border-left: 1px solid #eee;
+}
+
+.friends-list--container {
+    margin-top: 1.5rem;
+}
+
+.friends-list--container .user-card--container {
+    margin: 1.5rem 0;
+    border-bottom: 1px solid #eee;
+    overflow: hidden;
+    padding-bottom: 1em;
+}
+
+ul.list.list--skills {
+    margin-bottom: 2rem;
+}
+
+ul.list.list--skills li {
+    display: flex;
+    border-bottom: 1px solid #eee;
+    padding: .5rem 0;
+}
+
+ul.list.list--skills li span {
+    flex: 1 1 auto;
+    max-width: 110px;
+}
+
+.skill-item--count {
+    background: #eee;
+    padding: 4px;
+    border-radius: 50%;
+    width: 24px;
+    display: inline-block;
+    height: 24px;
+    text-align: center;
+    line-height: 16px;
+    font-size: 12px;
+    font-weight: bold;
+    float: right;
+    margin-right: 1em;
+}
+
+.skill-form {
+    padding: 1em 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+
+/* Friends page */
+section.section.section--friends .user-card--container {
+    border-bottom: 1px solid #eee;
+    padding: 1.5rem 0;
 }

@@ -19,35 +19,52 @@
                           </figure>
                         </div>
                         <div class="card-content">
-
+                            <small th:if="${currentUser.username} == ${user.username}" class="is-small"><a th:href="@{/users/{slug}/images/upload(slug=${user.slug})}">Change profile image</a></small>
                             <p class="title is-4" th:text="${user.name}">Full Name</p>
-                            <p class="subtitle is-6"><a th:href="@{/users/{slug}/images/upload(slug=${user.slug})}">Change profile image</a></p>
+                            
+                            <p th:if="${currentUser.id} != ${user.id}
+                               AND ${#lists.size(friends.?[user.username == #authentication.getPrincipal().getUsername()]) == 0}
+                               AND ${#lists.size(friends.?[friend.username == #authentication.getPrincipal().getUsername()]) == 0}" 
+                               class="subtitle is-6">
+                                <a th:href="@{/users/{slug}/friend-request(slug=${user.slug})}">Friend request</a>
+                            </p>    
 
-                            <aside class="menu">
-                                <p class="menu-label">
-                                    Skills
-                                </p>
+                            <p th:if="${currentUser.id} != ${user.id}" class="subtitle is-6" th:each="friendObj : ${friends}">
+                                <a th:if="${currentUser.id} == ${friendObj.friend.id}
+                                   AND ${friendObj.friendshipStatus == T(projekti.model.FriendshipStatus).PENDING}" 
+                                   th:href="@{/users/{slug}/friend-request/{id}/accept(slug=${user.slug},id=${friendObj.id})}">
+                                    Accept friend request</a>
+                                <a th:if="${currentUser.id == friendObj.friend.id OR currentUser.id == friendObj.user.id}
+                                   AND ${friendObj.friendshipStatus == T(projekti.model.FriendshipStatus).ACCEPTED}" 
+                                   th:href="@{/users/{slug}/friend-request/{id}/reject(slug=${user.slug},id=${friendObj.id})}">
+                                    Remove friend</a>
+                                <a th:if="${currentUser.id == friendObj.user.id}
+                                   AND ${friendObj.friendshipStatus == T(projekti.model.FriendshipStatus).PENDING}" 
+                                   th:href="@{/users/{slug}/friend-request/{id}/reject(slug=${user.slug},id=${friendObj.id})}">
+                                    Cancel friend request</a>
+                            </p>
+                            
+                            <aside class="menu menu--skills">
+                                <h2 class="title is-6 is-spaced bd-anchor-title">Skills</h2>
 
-                                <ul class="list">
+                                <ul class="list list--skills">
                                     <li th:each="skillRating : ${user.skillRatings}">
-                                        <span th:text="${skillRating.skill.name}">Skill name</span>
-                                        <span th:text="${skillRating.rating}">Skill rating</span>
-                                        <div th:if="${#authentication.getPrincipal().getUsername()} != ${user.username}" class="skill-actions">
-                                            <form method="POST" th:action="@{/users/{slug}/skills/{skillId}(slug=${user.slug},skillId=${skillRating.skill.id})}">
-                                                <input type="hidden" name="value" value="vote"/>
-                                                <input type="submit" value="Upvote"/>
-                                            </form>
-                                        </div>
+                                        <span class="skill--item">
+                                            <span class="skill-item--name" th:text="${skillRating.skill.name}">Skill name</span>
+                                            <span class="skill-item--count" th:text="${skillRating.rating}">Skill rating</span>
+                                        </span>
+                                        
+                                        <a th:if="${currentUser.username} != ${user.username}" class="skill-action" th:href="@{/users/{slug}/skills/{skillId}(slug=${user.slug},skillId=${skillRating.skill.id})}">UpVote</a> 
                                     </li>
                                 </ul>
 
                                 <div th:if="${currentUser.id} == ${user.id}" class="skill-form">
-                                    <h2 class="title is-5 is-spaced bd-anchor-title">Add a new skill</h2>
+                                    <h2 class="title is-6 is-spaced bd-anchor-title">Add a new skill</h2>
                                     <form method="POST" th:action="@{/users/{slug}/skills(slug=${user.slug})}">
                                         <div class="field">
                                             <label for="skillname" class="label">Skill</label>
                                             <div class="control">
-                                                <input type="text" name="skillName"/>
+                                                <input class="input" placeholder="Add skill..." type="text" name="skillName"/>
                                             </div>
                                         </div>
                                         <div class="control">
@@ -56,13 +73,26 @@
 
                                     </form>
                                 </div>
-                            </aside>        
+                            </aside> 
+                            
+                            <div class="friends-list--container">
+                                <h2 class="title is-6 is-spaced bd-anchor-title" th:text="${user.name} + '\'s friends'">Friends</h2>
+                                <div th:each="friendObj : ${friends}">
+                                    <div th:if="${friendObj.friendshipStatus == T(projekti.model.FriendshipStatus).ACCEPTED}">
+                                        <div th:replace="fragments/userCards :: userCardImageLeftSimple(user=${friendObj.friend.id != user.id ? friendObj.friend : friendObj.user})">
+                                            Friend
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
                         </div>
                     </div>
+                    
                 </div>
                 
-                <div class="tile is-parent is-8 is-child box">
-                    <h2 class="title is-4 is-spaced bd-anchor-title">Activity</h2>
+                <div class="tile is-parent is-8 is-child box activity-feed--container">
+                    <h2 class="title is-4 is-spaced bd-anchor-title" th:text="${user.name} + '\'s Activity'">Activity</h2>
                     <div th:replace="fragments/feedPartials :: messageFeed(messages=${messages})">
                         messages
                     </div>

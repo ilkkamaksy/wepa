@@ -18,6 +18,9 @@ import projekti.service.MessageService;
 import projekti.repository.SkillRatingRepository;
 import projekti.repository.SkillRepository;
 import projekti.model.Account;
+import projekti.model.Friend;
+import projekti.model.FriendshipStatus;
+import projekti.repository.FriendRepository;
 
 @Controller
 public class AccountController {
@@ -28,11 +31,14 @@ public class AccountController {
     @Autowired
     private MessageService messageService;
     
+    @Autowired
+    private FriendRepository friendRepository;
+    
     @GetMapping("/users/{slug}")
     public String getUserAccount(Model model, @PathVariable String slug, @RequestParam(defaultValue = "0") Integer page) {
         Account user = this.accountService.getAccountBySlug(slug);
         model.addAttribute("user", user);
-        
+        model.addAttribute("friends", this.friendRepository.findAllByAccountId(user.getId()));
         model.addAttribute("currentUser", this.accountService.getCurrentUserAccount());
         
         Pageable pageable = PageRequest.of(page, 25, Sort.by("pub_date_time").descending());
@@ -40,4 +46,5 @@ public class AccountController {
         
         return "profile";
     }
+    
 }

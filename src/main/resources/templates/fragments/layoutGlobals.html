@@ -27,7 +27,7 @@
                     <div class="navbar-start">
                         <a class="navbar-item" th:href="@{/}">Home</a>
                         <a class="navbar-item" sec:authorize="isAuthenticated()" th:href="@{/users/{slug}(slug=${currentUser.slug})}">Profile</a>
-                        
+                        <a class="navbar-item" sec:authorize="isAuthenticated()" th:href="@{/users/{slug}/friends(slug=${currentUser.slug})}">Friends</a>
                       </div>
                     </div>
 

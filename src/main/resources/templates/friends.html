@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="fragments/layoutGlobals :: head(title='Home')"></head>
+    <body>
+        <header th:replace="fragments/layoutGlobals :: header(currentUser=${currentUser})">
+            <p>menu</p>
+        </header>
+        
+        <section class="section section--friends">
+            <div class="container">                
+                <h1 class="title is-3 is-spaced bd-anchor-title">Manage friends</h1>
+                <div th:each="friendObj : ${friends}">
+                    <div th:replace="fragments/userCards :: friendCardImageLeft(friendObj=${friendObj}, currentUser=${currentUser})">
+                        Friend Card
+                    </div>    
+                </div>
+                
+            </div>
+        </section>
+        
+    </body>
+</html>

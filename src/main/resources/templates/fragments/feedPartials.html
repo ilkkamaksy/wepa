@@ -17,7 +17,7 @@
         
         <div class="message-content--container" th:fragment="messageContainer(item)">
             <article class="media">
-                <figure class="media-left" th:replace="fragments/feedPartials :: mediaLeft(item=${item})">
+                <figure class="media-left" th:replace="fragments/feedPartials :: mediaLeft(user=${item.user})">
                    Image
                 </figure>
                 <div class="media-content">
@@ -41,7 +41,7 @@
         
         <div class="comment-content--container" th:fragment="commentContainer(item)">
             <article class="media">
-                <figure class="media-left" th:replace="fragments/feedPartials :: mediaLeft(item=${item})">
+                <figure class="media-left" th:replace="fragments/feedPartials :: mediaLeft(user=${item.user})">
                    Image
                 </figure>
                 <div class="media-content">
@@ -56,13 +56,13 @@
         </div>
         
         
-        <figure class="media-left" th:fragment="mediaLeft(item)">
+        <figure class="media-left" th:fragment="mediaLeft(user)">
             <p class="image is-64x64">
-                <a class="message-meta--avatar" th:href="${item instanceof T(projekti.model.Message)} ? @{/users/{slug}(slug=${message.user.slug})} : @{/users/{slug}(slug=${comment.user.slug})}">
+                <a class="message-meta--avatar" th:href="@{/users/{slug}(slug=${user.slug})}">
                     <img
                         src="../public/img/profile-placeholder.jpg"
-                        th:src="${item.user.profileImage != null} ? @{/files/{profileImageUrl}(profileImageUrl=${item.user.profileImage.imageUrl})} : @{/img/profile-placeholder.jpg}" 
-                        th:alt="'Profile image of ' + ${item.user.name}" />
+                        th:src="${user.profileImage != null} ? @{/files/{profileImageUrl}(profileImageUrl=${user.profileImage.imageUrl})} : @{/img/profile-placeholder.jpg}" 
+                        th:alt="'Profile image of ' + ${user.name}" />
                 </a>    
             </p>
         </figure>        
@@ -79,13 +79,14 @@
         <nav class="level is-mobile" th:fragment="messageNav(item)">
             <div class="level-left">
               <a class="level-item">
-                   <span class="icon is-small"><i class="fas fa-reply"></i></span> Comment
+                   Comment
               </a>
               <div class="level-item">
-                <form method="POST" th:action="${item instanceof T(projekti.model.Message)} ? @{/messages/{id}/upvotes(id=${item.id})} : @{/comments/{id}/upvotes(id=${item.id})}"> 
-                  <input th:if="${#lists.size(item.upVotes.?[user.username == #authentication.getPrincipal().getUsername()]) == 0}" type="submit" value="upvote"/>
-                </form>
-                  <span class="icon is-small"><i class="fas fa-heart"></i></span> <span th:if="${#lists.size(item.upVotes)} > 0" class="message-upvote-count" th:text="${#lists.size(item.upVotes) + ' upvotes'}">voteCount</span>
+                  <a class="message-action" th:if="${#lists.size(item.upVotes.?[user.username == #authentication.getPrincipal().getUsername()]) == 0}"
+                     th:href="${item instanceof T(projekti.model.Message)} ? @{/messages/{id}/upvote(id=${item.id})} : @{/comments/{id}/upvote(id=${item.id})}"
+                     >
+                      Up vote</a>
+                  <span th:if="${#lists.size(item.upVotes)} > 0" class="message-upvote-count" th:text="${#lists.size(item.upVotes) + ' upvotes'}">voteCount</span>
               </div>
             </div>
         </nav>

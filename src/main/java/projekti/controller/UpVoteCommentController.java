@@ -2,6 +2,7 @@ package projekti.controller;
         
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import projekti.model.Comment;
@@ -23,7 +24,7 @@ public class UpVoteCommentController {
     @Autowired
     private UpVoteCommentService upVoteCommentService;
     
-    @PostMapping("/comments/{id}/upvotes")
+    @GetMapping("/comments/{id}/upvote")
     public String upVoteComment(@PathVariable Long id) {
         Account user = this.accountService.getCurrentUserAccount();
         Comment comment = this.commentService.getCommentById(id);

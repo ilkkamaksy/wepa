@@ -50,6 +50,9 @@ public class Account extends AbstractPersistable<Long> {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Comment> comments;
     
+    @OneToMany(mappedBy = "user")
+    private List<Friend> friends;
+    
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> authorities;
 

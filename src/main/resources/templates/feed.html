@@ -6,18 +6,19 @@
             <p>menu</p>
         </header>
         
-        <div class="container">
-            <div class="tile is-ancestor">
-                <div class="tile is-parent is-child box">
-                    <div th:replace="fragments/messageForm :: messageForm">
-                        messageForm
-                    </div>
-
-                    <div th:replace="fragments/feedPartials :: messageFeed(messages=${messages})">
-                        messages
-                    </div>        
+        <section class="section section--feed-form">
+            <div class="container">                        
+                <div th:replace="fragments/messageForm :: messageForm(currentUser=${currentUser})">
+                    messageForm
                 </div>
             </div>
-        </div>
+        </section>
+        <section class="section section--feed-messages">
+            <div class="container">
+                <div th:replace="fragments/feedPartials :: messageFeed(messages=${messages})">
+                    messages
+                </div>        
+            </div>    
+        </section>
     </body>
 </html>

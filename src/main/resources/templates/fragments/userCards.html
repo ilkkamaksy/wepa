@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>User cards</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+                
+        <div class="user-card--container" th:fragment="userCardImageLeftSimple(user)">
+            <div class="media">
+                <figure class="media-left" th:replace="fragments/userCards :: mediaLeft(user=${user})">
+                   Image
+                </figure>
+                <div class="media-content" th:replace="fragments/userCards :: userCardContentOnlyLinkToProfile(user=${user})">
+                    Card content
+                </div>   
+            </div>
+        </div>
+
+        <div class="user-card--container" th:fragment="friendCardImageLeft(friendObj, currentUser)">
+            <div class="media">
+                <figure class="media-left" th:replace="fragments/userCards :: mediaLeft(user=${friendObj.friend.id != currentUser.id ? friendObj.friend : friendObj.user})">
+                   Image
+                </figure>
+                <div class="media-content" th:replace="fragments/userCards :: friendCardContentWithActions(user=${friendObj.friend.id != currentUser.id ? friendObj.friend : friendObj.user}, friendObj=${friendObj}, currentUser=${currentUser})">
+                    Card content
+                </div>   
+            </div>
+        </div>
+        
+        <figure class="media-left" th:fragment="mediaLeft(user)">
+            <p class="image is-48x48">
+                <a class="message-meta--avatar" th:href="@{/users/{slug}(slug=${user.slug})}">
+                    <img
+                        src="../public/img/profile-placeholder.jpg"
+                        th:src="${user.profileImage != null} ? @{/files/{profileImageUrl}(profileImageUrl=${user.profileImage.imageUrl})} : @{/img/profile-placeholder.jpg}" 
+                        th:alt="'Profile image of ' + ${user.name}" />
+                </a>    
+            </p>
+        </figure>        
+        
+        <div class="media-content" th:fragment="userCardContentOnlyLinkToProfile(user)">
+            <p><a th:href="@{/users/{slug}(slug=${user.slug})}" th:text="${user.name}">Full Name</a></p>
+        </div>
+        
+        <div class="media-content" th:fragment="friendCardContentWithActions(user, friendObj, currentUser)">
+            <p class="title is-6"><a th:href="@{/users/{slug}(slug=${user.slug})}" th:text="${user.name}">Full Name</a></p>
+            <p class="subtitle is-6">
+                <a th:if="${friendObj.user.id != currentUser.id}
+                   AND ${friendObj.friendshipStatus == T(projekti.model.FriendshipStatus).PENDING}" 
+                   th:href="@{/users/{slug}/friend-request/{id}/accept(slug=${user.slug},id=${friendObj.id})}">
+                 Accept friend request</a>
+                <a th:if="${friendObj.user.id == currentUser.id} 
+                   AND ${friendObj.friendshipStatus == T(projekti.model.FriendshipStatus).PENDING}" 
+                   th:href="@{/users/{slug}/friend-request/{id}/reject(slug=${user.slug},id=${friendObj.id})}">
+                 Cancel friend request</a>
+                <a th:if="${friendObj.friendshipStatus == T(projekti.model.FriendshipStatus).ACCEPTED}" 
+                th:href="@{/users/{slug}/friend-request/{id}/reject(slug=${user.slug},id=${friendObj.id})}">
+                 Remove friend</a>
+            </p>
+        </div>
+        
+        <aside class="menu" th:fragment="userCardSkillsList(user, currentUser)">
+            
+            <p class="menu-label">Skills</p>
+
+            <ul class="list">
+                <li th:each="skillRating : ${user.skillRatings}">
+                    <span th:text="${skillRating.skill.name}">Skill name</span>
+                    <span th:text="${skillRating.rating}">Skill rating</span>
+                    <div th:if="${currentUser.username} != ${user.username}" class="skill-actions">
+                        <form method="POST" th:action="@{/users/{slug}/skills/{skillId}(slug=${user.slug},skillId=${skillRating.skill.id})}">
+                            <input type="hidden" name="value" value="vote"/>
+                            <input type="submit" value="Upvote"/>
+                        </form>
+                    </div>
+                </li>
+            </ul>
+
+            <div th:if="${currentUser.id} == ${user.id}" class="skill-form">
+                <h2 class="title is-5 is-spaced bd-anchor-title">Add a new skill</h2>
+                <form method="POST" th:action="@{/users/{slug}/skills(slug=${user.slug})}">
+                    <div class="field">
+                        <label for="skillname" class="label">Skill</label>
+                        <div class="control">
+                            <input type="text" name="skillName"/>
+                        </div>
+                    </div>
+                    <div class="control">
+                        <input class="button is-primary" type="submit" value="Add new skill"/>
+                    </div>
+
+                </form>
+            </div>
+        </aside>        
+        
+        
+    </body>
+</html>
