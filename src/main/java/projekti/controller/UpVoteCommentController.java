@@ -1,16 +1,13 @@
 package projekti.controller;
         
-import static jdk.internal.joptsimple.internal.Messages.message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import projekti.model.Comment;
-import projekti.model.Comment;
 import projekti.model.UpVoteComment;
 import projekti.service.CommentService;
 import projekti.service.UpVoteCommentService;
-import projekti.model.UpVoteMessage;
 import projekti.model.Account;
 import projekti.service.AccountService;
 
