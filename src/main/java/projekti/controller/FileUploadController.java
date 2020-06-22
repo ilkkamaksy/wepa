@@ -49,17 +49,6 @@ public class FileUploadController {
     @GetMapping("/users/{slug}/images/upload")
     public String listUploadedFiles(Model model, @PathVariable String slug) throws IOException {
         model.addAttribute("currentUser", this.accountService.getCurrentUserAccount());
-        
-        model.addAttribute("files", storageService.loadAll().map(
-            path -> MvcUriComponentsBuilder.fromMethodName(
-                    FileUploadController.class,
-                    "serveFile", 
-                    path.getFileName()
-                        .toString())
-                        .build()
-                        .toUri()
-                        .toString())
-            .collect(Collectors.toList()));
 
         return "uploadImage";
     }
@@ -84,9 +73,6 @@ public class FileUploadController {
         this.accountService.saveUserAccount(account);
         
         storageService.store(file);
-        
-        redirectAttributes.addFlashAttribute("message",
-                        "You successfully uploaded " + file.getOriginalFilename() + "!");
 
         return "redirect:/users/" + slug;
     }

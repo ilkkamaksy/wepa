@@ -5,26 +5,19 @@
         <header th:replace="fragments/layoutGlobals :: header(currentUser=${currentUser})">
             <p>menu</p>
         </header>
-        
-        <div th:if="${message}">
-            <h1 th:text="${message}"/>
-	</div>
 
-	<div>
-            <form method="POST" enctype="multipart/form-data" th:action="@{/users/{slug}/images(slug=${currentUser.slug})}">
-                <label for="file">File to upload</label>
-                <input type="file" name="file" />
-                <input type="submit" value="Upload" />
-            </form>
-	</div>
-
-	<div>
-            <ul>
-                <li th:each="file : ${files}">
-                    <a th:href="${file}" th:text="${file}" />
-                </li>
-            </ul>
-	</div>
+        <section class="section section--upload">
+            <div class="container">                
+                <h1 class="title is-3 is-spaced bd-anchor-title">Upload a profile image</h1>
+                <div>
+                    <form method="POST" enctype="multipart/form-data" th:action="@{/users/{slug}/images(slug=${currentUser.slug})}">
+                        <label class="file-label" for="file">File to upload</label>
+                        <input type="file" name="file" />
+                        <input class="button is-primary" type="submit" value="Upload" />
+                    </form>
+                </div>
+            </div>
+        </section>        
 
     </body>
 </html>

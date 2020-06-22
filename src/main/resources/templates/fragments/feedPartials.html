@@ -82,11 +82,16 @@
                    Comment
               </a>
               <div class="level-item">
-                  <a class="message-action" th:if="${#lists.size(item.upVotes.?[user.username == #authentication.getPrincipal().getUsername()]) == 0}"
+                  <a class="message-action" 
+                     th:if="${#lists.size(item.upVotes.?[user.username == #authentication.getPrincipal().getUsername()]) == 0}"
                      th:href="${item instanceof T(projekti.model.Message)} ? @{/messages/{id}/upvote(id=${item.id})} : @{/comments/{id}/upvote(id=${item.id})}"
+                     th:attr="data-id=${item.id},data-count=${#lists.size(item.upVotes)}"
                      >
                       Up vote</a>
-                  <span th:if="${#lists.size(item.upVotes)} > 0" class="message-upvote-count" th:text="${#lists.size(item.upVotes) + ' upvotes'}">voteCount</span>
+                  <span 
+                      class="message-upvote-count" 
+                      th:id="'upvote-count-' + ${item.id}" 
+                      th:text="${#lists.size(item.upVotes) + ' upvotes'}">voteCount</span>
               </div>
             </div>
         </nav>

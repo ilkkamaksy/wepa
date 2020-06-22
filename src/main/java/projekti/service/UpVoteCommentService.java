@@ -11,8 +11,11 @@ public class UpVoteCommentService {
     @Autowired
     private UpVoteCommentRepository upVoteCommentRepository;
     
-    public UpVoteComment save(UpVoteComment upVote) {
-        return this.upVoteCommentRepository.save(upVote);
+    public Boolean save(UpVoteComment upVoteComment) {
+        if (null != this.upVoteCommentRepository.save(upVoteComment)) {
+            return true;
+        } 
+        return false;
     }
     
     public void delete(UpVoteComment upVote) {
