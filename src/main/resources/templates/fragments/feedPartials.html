@@ -72,8 +72,8 @@
               <div class="level-item">
                   <a class="message-action" 
                      th:if="${#lists.size(item.upVotes.?[user.username == #authentication.getPrincipal().getUsername()]) == 0}"
-                     th:href="${item instanceof T(projekti.model.Message)} ? @{/messages/{id}/upvote(id=${item.id})} : @{/comments/{id}/upvote(id=${item.id})}"
-                     th:attr="data-id=${item.id},data-page=0"
+                     th:href="${item instanceof T(projekti.model.Message)} ? @{/messages/{id}/upvote?page=0&slug={slug}(id=${item.id}, slug=${user != null ? user.slug : ''})} : @{/comments/{id}/upvote?page=0&slug={slug}(id=${item.id}, slug=${user != null ? user.slug : ''})}"
+                     th:attr="data-id=${item.id}"
                      >
                       Up vote</a>
                   <span 

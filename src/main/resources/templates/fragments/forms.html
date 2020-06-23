@@ -24,7 +24,7 @@
         <div class="comment-form" th:fragment="commentForm(parent)">
             <h2 class="title is-6 is-spaced bd-anchor-title">Reply</h2>
             <div class="media">
-                <figure class="media-left" th:replace="fragments/userCards :: mediaLeft(user=${parent.user})">
+                <figure class="media-left" th:replace="fragments/userCards :: mediaLeft(user=${currentUser})">
                    Image
                 </figure>
                 <div class="media-content">
