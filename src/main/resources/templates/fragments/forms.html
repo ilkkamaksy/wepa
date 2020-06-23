@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Skills list</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    
+        <div id="skills-form" th:fragment="skillsForm">
+            <form method="POST" th:action="@{/users/{slug}/skills(slug=${user.slug})}">
+                <div class="field">
+                    <label for="skillname" class="label">Skill</label>
+                    <div class="control">
+                        <input id="skillName" class="input" placeholder="Add skill..." type="text" name="skillName"/>
+                    </div>
+                </div>
+                <div class="control">
+                    <input class="button is-primary" type="submit" value="Add new skill"/>
+                </div>
+
+            </form>
+        </div>
+    
+        <div class="comment-form" th:fragment="commentForm(parent)">
+            <h2 class="title is-6 is-spaced bd-anchor-title">Reply</h2>
+            <div class="media">
+                <figure class="media-left" th:replace="fragments/userCards :: mediaLeft(user=${parent.user})">
+                   Image
+                </figure>
+                <div class="media-content">
+                    <form class="comments--comment-form" method="POST" th:action="${parent instanceof T(projekti.model.Message)} ? @{/messages/{id}/comment(id=${message.id})} : @{/comments/{id}(id=${comment.id})}">
+                        <div class="field">
+                            <div class="control">
+                                <textarea class="textarea" placeholder="Your reply..." name="messageContent" rows="4" cols="50"></textarea>
+                            </div>
+                        </div>
+                        <div class="control">
+                            <input class="paged hidden" type="number" value="0" />
+                            <input class="user-slug" type="hidden" th:value="${user} != null ? ${user.slug} : ''" />
+                            <input class="button is-primary" type="submit" value="Reply"/>
+                         </div>
+                    </form>
+                </div>
+            </div>
+        </div> 
+    
+        <div class="message-form" th:fragment="messageForm(currentUser)">
+            <h2 class="title is-4 is-spaced bd-anchor-title">What's on your mind?</h2>
+            <div class="media">
+                <figure class="media-left" th:replace="fragments/userCards :: mediaLeft(user=${currentUser})">
+                   Image
+                </figure>
+                <div class="media-content">
+                    
+                    <form method="POST" th:action="@{/messages}">
+                        <div class="field">
+                            <div class="control">
+                                <textarea class="textarea" placeholder="Add a message..." name="messageContent" rows="4" cols="50"></textarea>
+                            </div>
+                        </div>
+                        <div class="control">
+                            <input class="button is-primary" type="submit" value="Post"/>
+                         </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

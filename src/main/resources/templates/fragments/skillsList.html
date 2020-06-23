@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Skills list</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+        
+        <div id="skills-list" th:fragment="skillsList">
+            <ul class="list list--skills">
+                <li th:each="skillRating : ${user.skillRatings}">
+                    <span class="skill--item">
+                        <span class="skill-item--name" th:text="${skillRating.skill.name}">Skill name</span>
+                        <span class="skill-item--count" th:text="${skillRating.rating}">Skill rating</span>
+                    </span>
+
+                    <a 
+                        th:if="${currentUser.username} != ${user.username}" 
+                        class="skill-action" 
+                        th:href="@{/users/{slug}/skills/{skillId}(slug=${user.slug},skillId=${skillRating.skill.id})}"
+                        th:attr="data-id=${skillRating.skill.id}"
+                        >
+                        UpVote</a> 
+                </li>
+            </ul>
+        </div>
+        
+    </body>
+</html>

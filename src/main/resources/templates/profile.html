@@ -47,31 +47,15 @@
                             <aside class="menu menu--skills">
                                 <h2 class="title is-6 is-spaced bd-anchor-title">Skills</h2>
 
-                                <ul class="list list--skills">
-                                    <li th:each="skillRating : ${user.skillRatings}">
-                                        <span class="skill--item">
-                                            <span class="skill-item--name" th:text="${skillRating.skill.name}">Skill name</span>
-                                            <span class="skill-item--count" th:text="${skillRating.rating}">Skill rating</span>
-                                        </span>
-                                        
-                                        <a th:if="${currentUser.username} != ${user.username}" class="skill-action" th:href="@{/users/{slug}/skills/{skillId}(slug=${user.slug},skillId=${skillRating.skill.id})}">UpVote</a> 
-                                    </li>
-                                </ul>
-
+                                <div id="skills-list" th:replace="fragments/skillsList :: skillsList">
+                                    list of skills
+                                </div>
+                                
                                 <div th:if="${currentUser.id} == ${user.id}" class="skill-form">
                                     <h2 class="title is-6 is-spaced bd-anchor-title">Add a new skill</h2>
-                                    <form method="POST" th:action="@{/users/{slug}/skills(slug=${user.slug})}">
-                                        <div class="field">
-                                            <label for="skillname" class="label">Skill</label>
-                                            <div class="control">
-                                                <input class="input" placeholder="Add skill..." type="text" name="skillName"/>
-                                            </div>
-                                        </div>
-                                        <div class="control">
-                                            <input class="button is-primary" type="submit" value="Add new skill"/>
-                                        </div>
-
-                                    </form>
+                                    <div id="skills-form" th:replace="fragments/forms :: skillsForm">
+                                     skills form
+                                    </div>
                                 </div>
                             </aside> 
                             

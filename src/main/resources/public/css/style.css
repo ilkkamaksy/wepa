@@ -71,8 +71,9 @@ section.section.section--feed-form {
     padding: 2rem 1.5rem 0;
 }
 .message-form {
-    background: #f7f7f7;
-    padding: 2rem;
+    background: #fff;
+    padding: 2.5rem 2rem;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
 }
 
 /* message meta */

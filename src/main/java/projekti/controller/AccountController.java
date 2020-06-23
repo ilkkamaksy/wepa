@@ -40,6 +40,7 @@ public class AccountController {
         model.addAttribute("user", user);
         model.addAttribute("friends", this.friendRepository.findAllByAccountId(user.getId()));
         model.addAttribute("currentUser", this.accountService.getCurrentUserAccount());
+        model.addAttribute("paged", page);
         
         Pageable pageable = PageRequest.of(page, 25, Sort.by("pub_date_time").descending());
         model.addAttribute("messages", this.messageService.getMessagesByUserPaginated(user, pageable));

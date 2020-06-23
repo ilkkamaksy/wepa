@@ -6,8 +6,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        
-        <div class="message-feed--container" th:fragment="messageFeed(messages)">
+
+        <div id="main-message-feed" class="message-feed--container" th:fragment="messageFeed">
             <div th:each="message : ${messages}">
                 <div th:replace="fragments/feedPartials :: messageContainer(item=${message})">
                     messageContent
@@ -17,7 +17,7 @@
         
         <div class="message-content--container" th:fragment="messageContainer(item)">
             <article class="media">
-                <figure class="media-left" th:replace="fragments/feedPartials :: mediaLeft(user=${item.user})">
+                <figure class="media-left" th:replace="fragments/userCards :: mediaLeft(user=${item.user})">
                    Image
                 </figure>
                 <div class="media-content">
@@ -32,7 +32,7 @@
                             commentContent
                         </div>
                     </div>
-                    <div th:replace="fragments/commentForm :: commentForm(parent=${message})">
+                    <div th:replace="fragments/forms :: commentForm(parent=${message})">
                         commentForm
                     </div>
                 </div>        
@@ -41,7 +41,7 @@
         
         <div class="comment-content--container" th:fragment="commentContainer(item)">
             <article class="media">
-                <figure class="media-left" th:replace="fragments/feedPartials :: mediaLeft(user=${item.user})">
+                <figure class="media-left" th:replace="fragments/userCards :: mediaLeft(user=${item.user})">
                    Image
                 </figure>
                 <div class="media-content">
@@ -54,18 +54,6 @@
                 </div>
             </article>
         </div>
-        
-        
-        <figure class="media-left" th:fragment="mediaLeft(user)">
-            <p class="image is-64x64">
-                <a class="message-meta--avatar" th:href="@{/users/{slug}(slug=${user.slug})}">
-                    <img
-                        src="../public/img/profile-placeholder.jpg"
-                        th:src="${user.profileImage != null} ? @{/files/{profileImageUrl}(profileImageUrl=${user.profileImage.imageUrl})} : @{/img/profile-placeholder.jpg}" 
-                        th:alt="'Profile image of ' + ${user.name}" />
-                </a>    
-            </p>
-        </figure>        
         
         <div class="content" th:fragment="messageContent(item)">
             <p>
@@ -85,7 +73,7 @@
                   <a class="message-action" 
                      th:if="${#lists.size(item.upVotes.?[user.username == #authentication.getPrincipal().getUsername()]) == 0}"
                      th:href="${item instanceof T(projekti.model.Message)} ? @{/messages/{id}/upvote(id=${item.id})} : @{/comments/{id}/upvote(id=${item.id})}"
-                     th:attr="data-id=${item.id},data-count=${#lists.size(item.upVotes)}"
+                     th:attr="data-id=${item.id},data-page=0"
                      >
                       Up vote</a>
                   <span 

@@ -8,16 +8,16 @@
         
         <section class="section section--feed-form">
             <div class="container">                        
-                <div th:replace="fragments/messageForm :: messageForm(currentUser=${currentUser})">
+                <div th:replace="fragments/forms :: messageForm(currentUser=${currentUser})">
                     messageForm
                 </div>
             </div>
         </section>
         <section class="section section--feed-messages">
             <div class="container">
-                <div th:replace="fragments/feedPartials :: messageFeed(messages=${messages})">
-                    messages
-                </div>        
+                <div id="main-message-feed" th:replace="fragments/feedPartials :: messageFeed">
+                    The message feed
+                </div>
             </div>    
         </section>
     </body>
