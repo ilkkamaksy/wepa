@@ -57,6 +57,6 @@ public class MessageService {
             model.addAttribute("messages", this.getAllMessagesPaginated(pageable));
         }
 
-        return new ModelAndView("/fragments/feedPartials :: messageFeed");
+        return new ModelAndView("fragments/feedPartials :: messageFeed");
     }
 }

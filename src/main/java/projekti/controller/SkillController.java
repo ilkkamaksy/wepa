@@ -48,7 +48,7 @@ public class SkillController {
         model.addAttribute("user", user);
         model.addAttribute("currentUser", this.accountService.getCurrentUserAccount());
         
-        return new ModelAndView("/fragments/skillsList :: skillsList");
+        return new ModelAndView("fragments/skillsList :: skillsList");
     }
     
     @GetMapping("/users/{userSlug}/skills/{skillId}")
@@ -62,6 +62,6 @@ public class SkillController {
         model.addAttribute("user", user);
         model.addAttribute("currentUser", this.accountService.getCurrentUserAccount());
         
-        return new ModelAndView("/fragments/skillsList :: skillsList");
+        return new ModelAndView("fragments/skillsList :: skillsList");
     }
 }
