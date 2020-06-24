@@ -18,7 +18,6 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @NoArgsConstructor
 public class ProfileImage extends AbstractPersistable<Long> {
     
-    	@Lob
         @Basic(fetch = FetchType.LAZY)
         private byte[] content;
 
