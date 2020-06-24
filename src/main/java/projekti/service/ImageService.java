@@ -19,6 +19,7 @@ import projekti.model.ProfileImage;
 import projekti.repository.ProfileImageRepository;
 
 @Service
+@Transactional
 public class ImageService {
     
     @Autowired
@@ -30,8 +31,7 @@ public class ImageService {
     public ProfileImage getImage(Long id) {
         return this.profileImageRepository.getOne(id);
     }
-    
-    @Transactional
+
     public ProfileImage save(MultipartFile file) throws IOException {
         ProfileImage img = new ProfileImage();
         img.setContent(file.getBytes());
