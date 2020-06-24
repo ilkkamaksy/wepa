@@ -1,30 +1,35 @@
 package projekti.model;
 
-import projekti.model.Account;
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.jpa.domain.AbstractPersistable;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProfileImage {
+public class ProfileImage extends AbstractPersistable<Long> {
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private Long id;
-    
-    private String imageUrl;
-    
-    @OneToOne(mappedBy = "profileImage")
-    private Account account;
+    	@Lob
+        @Basic(fetch = FetchType.LAZY)
+        private byte[] content;
+
+        private String name;
+
+        private String mediaType;
+
+        private Long size;
+
+        @OneToOne(cascade = CascadeType.ALL)
+        @JoinColumn(name = "account_id")
+        private Account account;
+
 }

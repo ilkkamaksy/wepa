@@ -14,7 +14,7 @@
                           <figure class="image is-4by3">
                             <img
                                 src="../public/img/profile-placeholder.jpg"
-                                th:src="${user.profileImage != null} ? @{/files/{profileImageUrl}(profileImageUrl=${user.profileImage.imageUrl})} : @{/img/profile-placeholder.jpg}" 
+                                th:src="${user.profileImage != null} ? @{/images/{id}(id=${user.profileImage.id})} : @{/img/profile-placeholder.jpg}" 
                                 th:alt="'Profile image of ' + ${user.name}" />
                           </figure>
                         </div>
