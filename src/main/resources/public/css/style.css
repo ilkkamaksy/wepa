@@ -127,6 +127,7 @@ section.section.section--feed-form {
     padding-bottom: 1em;
 }
 
+/* Skills list */
 ul.list.list--skills {
     margin-bottom: 2rem;
 }
@@ -136,7 +137,9 @@ ul.list.list--skills li {
     border-bottom: 1px solid #eee;
     padding: .5rem 0;
 }
-
+ul.list.list--skills li.last {
+    margin-bottom: 3rem;
+}
 ul.list.list--skills li span {
     flex: 1 1 auto;
     max-width: 110px;

@@ -10,6 +10,7 @@ import javax.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 @Entity
@@ -18,6 +19,7 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @NoArgsConstructor
 public class ProfileImage extends AbstractPersistable<Long> {
     
+        @Lob
         @Basic(fetch = FetchType.LAZY)
         private byte[] content;
 

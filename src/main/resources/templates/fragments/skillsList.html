@@ -8,7 +8,7 @@
         
         <div id="skills-list" th:fragment="skillsList">
             <ul class="list list--skills">
-                <li th:each="skillRating : ${user.skillRatings}">
+                <li th:class="${iter.index == 2}? 'last'" th:each="skillRating,iter : ${user.skillRatings}">
                     <span class="skill--item">
                         <span class="skill-item--name" th:text="${skillRating.skill.name}">Skill name</span>
                         <span class="skill-item--count" th:text="${skillRating.rating}">Skill rating</span>

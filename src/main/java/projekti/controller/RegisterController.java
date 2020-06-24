@@ -29,7 +29,7 @@ public class RegisterController {
 
     @PostMapping("/register")
     public String addNewUser(@RequestParam String username, @RequestParam String password, @RequestParam String fullname, @RequestParam String slug) {
-        if (accountRepository.findByUsername(username) != null) {
+        if (accountRepository.findByUsername(username) != null || accountRepository.findBySlug(slug) != null) {
             return "redirect:/register";
         }
         
