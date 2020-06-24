@@ -97,6 +97,20 @@ function onCommentFormSubmit() {
     });
 }
 
+function onReplyButtonClick() {
+    document.body.addEventListener('click', event => {
+        if (event.target.matches('a.action-reply')) {
+            event.preventDefault();
+            const targetId = event.target.dataset.form;
+            const form = document.getElementById("comment-form-" + targetId);
+            form.classList.add('active');
+        } else {
+            return;
+        }   
+    });
+}
+
 onVoteLinkClick();
 onSkillsFormSubmit();
 onCommentFormSubmit();
+onReplyButtonClick();

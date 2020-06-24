@@ -34,7 +34,7 @@ public class AccountController {
         model.addAttribute("currentUser", this.accountService.getCurrentUserAccount());
         model.addAttribute("paged", page);
         
-        Pageable pageable = PageRequest.of(page, 25, Sort.by("pub_date_time").descending());
+        Pageable pageable = PageRequest.of(page, 25, Sort.by("pubDateTime").descending());
         model.addAttribute("messages", this.messageService.getMessagesByUserPaginated(user, pageable));
         
         return "profile";

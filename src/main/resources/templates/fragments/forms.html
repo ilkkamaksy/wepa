@@ -21,14 +21,17 @@
             </form>
         </div>
     
-        <div class="comment-form" th:fragment="commentForm(parent)">
+        <div class="comment-form" th:id="${'comment-form-' + parent.id}" th:fragment="commentForm(parent)">
             <h2 class="title is-6 is-spaced bd-anchor-title">Reply</h2>
             <div class="media">
                 <figure class="media-left" th:replace="fragments/userCards :: mediaLeft(user=${currentUser})">
                    Image
                 </figure>
                 <div class="media-content">
-                    <form class="comments--comment-form" method="POST" th:action="${parent instanceof T(projekti.model.Message)} ? @{/messages/{id}/comment(id=${message.id})} : @{/comments/{id}(id=${comment.id})}">
+                    <form class="comments--comment-form" 
+                          method="POST" 
+                          th:action="${parent instanceof T(projekti.model.Message)} ? @{/messages/{id}/comment(id=${message.id})} : @{/comments/{id}(id=${comment.id})}"
+                          >
                         <div class="field">
                             <div class="control">
                                 <textarea class="textarea" placeholder="Your reply..." name="messageContent" rows="4" cols="50"></textarea>

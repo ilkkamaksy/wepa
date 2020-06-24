@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,6 +29,7 @@ public class Message extends AbstractPersistable<Long> {
     private Account user;
 
     @OneToMany(mappedBy = "message", cascade = CascadeType.ALL)
+    @OrderBy("pub_date_time ASC")
     private List<Comment> comments;
     
     @OneToMany(mappedBy = "message", cascade = CascadeType.ALL)

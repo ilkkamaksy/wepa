@@ -104,8 +104,11 @@ section.section.section--feed-form {
     border-radius: 4px;
     border-top: 1px solid #eee;
     border-bottom: 1px solid #eee;
+    display:none;
 }
-
+.message-feed--container .comment-form.active {
+    display:block;
+}
 /* Profile */
 .tile.is-parent.is-8.is-child.box.activity-feed--container {
     padding: 2rem;

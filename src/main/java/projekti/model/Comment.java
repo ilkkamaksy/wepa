@@ -34,7 +34,7 @@ public class Comment extends AbstractPersistable<Long> {
     @JoinColumn(name = "account_id")
     private Account user;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "message_id")
     private Message message;
 

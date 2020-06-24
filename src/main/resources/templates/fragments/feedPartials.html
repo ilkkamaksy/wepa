@@ -27,13 +27,13 @@
                     <nav class="level is-mobile" th:replace="fragments/feedPartials :: messageNav(item=${item})">
                         Message Nav
                     </nav>
+                    <div th:replace="fragments/forms :: commentForm(parent=${item})">
+                        commentForm
+                    </div>
                     <div th:each="comment : ${message.comments}">
                         <div th:replace="fragments/feedPartials :: commentContainer(item=${comment})">
                             commentContent
                         </div>
-                    </div>
-                    <div th:replace="fragments/forms :: commentForm(parent=${message})">
-                        commentForm
                     </div>
                 </div>        
             </article>
@@ -51,6 +51,14 @@
                     <nav class="level is-mobile" th:replace="fragments/feedPartials :: messageNav(item=${item})">
                         Message Nav
                     </nav>
+                    <div th:replace="fragments/forms :: commentForm(parent=${item})">
+                        commentForm
+                    </div>
+                    <div th:each="child : ${item.children}">
+                        <div th:replace="fragments/feedPartials :: commentContainer(item=${child})">
+                            commentContent
+                        </div>
+                    </div>
                 </div>
             </article>
         </div>
@@ -66,8 +74,8 @@
         
         <nav class="level is-mobile" th:fragment="messageNav(item)">
             <div class="level-left">
-              <a class="level-item">
-                   Comment
+              <a class="level-item action-reply" href="#" th:attr="data-form=${item.id}">
+                   Reply
               </a>
               <div class="level-item">
                   <a class="message-action" 

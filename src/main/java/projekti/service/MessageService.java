@@ -31,7 +31,7 @@ public class MessageService {
     }
     
     public Page<Message> getMessagesByUserPaginated(Account user, Pageable pageable) {
-        return this.messageRepository.findByAccountId(user.getId(), pageable);
+        return this.messageRepository.findByUserId(user.getId(), pageable);
     }
     
     public Message getMessageById(Long id) {
@@ -46,14 +46,13 @@ public class MessageService {
 
         model.addAttribute("currentUser", currentUser);
         model.addAttribute("paged", page);
-   
+        Pageable pageable = PageRequest.of(page, 25, Sort.by("pubDateTime").descending());
+        
         if (!slug.isEmpty()) {
             Account user = this.accountService.getAccountBySlug(slug);
-            Pageable pageable = PageRequest.of(page, 25, Sort.by("pub_date_time").descending());
             model.addAttribute("messages", this.getMessagesByUserPaginated(user, pageable));
             model.addAttribute("user", user);
         } else {
-            Pageable pageable = PageRequest.of(page, 25, Sort.by("pubDateTime").descending());
             model.addAttribute("messages", this.getAllMessagesPaginated(pageable));
         }
 
