@@ -2,6 +2,7 @@ package projekti.service;
 
 import java.io.IOException;
 import java.util.List;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,6 +31,7 @@ public class ImageService {
         return this.profileImageRepository.getOne(id);
     }
     
+    @Transactional
     public ProfileImage save(MultipartFile file) throws IOException {
         ProfileImage img = new ProfileImage();
         img.setContent(file.getBytes());
