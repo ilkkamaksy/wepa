@@ -29,7 +29,7 @@ public class ProfileImage extends AbstractPersistable<Long> {
 
         private Long size;
 
-        @OneToOne(cascade = CascadeType.ALL)
+        @OneToOne
         @JoinColumn(name = "account_id")
         private Account account;
 

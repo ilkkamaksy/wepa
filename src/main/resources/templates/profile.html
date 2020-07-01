@@ -19,7 +19,15 @@
                           </figure>
                         </div>
                         <div class="card-content">
-                            <small th:if="${currentUser.username} == ${user.username}" class="is-small"><a th:href="@{/users/{slug}/images/upload(slug=${user.slug})}">Change profile image</a></small>
+                            <small th:if="${currentUser.id} == ${user.id}" class="is-small">
+                                <a th:href="@{/users/{slug}/images/upload(slug=${user.slug})}">
+                                    Change profile image
+                                </a>
+                                <span th:if="${user.profileImage != null}"> | </span>
+                                <a th:if="${user.profileImage != null}" th:href="@{/users/{slug}/images/remove/{id}(slug=${user.slug}, id=${user.profileImage.id})}">
+                                    Remove image
+                                </a>
+                            </small>
                             <p class="title is-4" th:text="${user.name}">Full Name</p>
                             
                             <p th:if="${currentUser.id} != ${user.id}

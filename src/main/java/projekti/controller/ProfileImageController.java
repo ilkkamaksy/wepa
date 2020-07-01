@@ -48,5 +48,11 @@ public class ProfileImageController {
         ProfileImage img = this.imageService.getImage(id);
         return img.getContent();
     }
+    
+    @GetMapping("/users/{slug}/images/remove/{id}")
+    public String removeImage(@PathVariable String slug, @PathVariable Long id) throws IOException {
+        this.imageService.remove(id);
+        return "redirect:/users/" + slug;
+    }
 
 }

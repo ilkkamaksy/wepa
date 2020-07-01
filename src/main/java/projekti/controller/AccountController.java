@@ -30,12 +30,10 @@ public class AccountController {
     public String getUserAccount(Model model, @PathVariable String slug, @RequestParam(defaultValue = "0") Integer page) {
         Account user = this.accountService.getAccountBySlug(slug);
         model.addAttribute("user", user);
-        model.addAttribute("friends", this.friendRepository.findAllByAccountId(user.getId()));
+        model.addAttribute("friends", this.friendRepository.findByUserId(user.getId()));
         model.addAttribute("currentUser", this.accountService.getCurrentUserAccount());
         model.addAttribute("paged", page);
-        
-        Pageable pageable = PageRequest.of(page, 25, Sort.by("pubDateTime").descending());
-        model.addAttribute("messages", this.messageService.getMessagesByUserPaginated(user, pageable));
+        model.addAttribute("messages", this.messageService.getMessagesBatchByUser(user, page));
         
         return "profile";
     }

@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
+import org.springframework.lang.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,8 +26,8 @@ public class Account extends AbstractPersistable<Long> {
     private String slug;
     private String name;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "profile_image_id", referencedColumnName = "id")
+    @Nullable
+    @OneToOne(mappedBy="account", cascade = CascadeType.ALL)
     private ProfileImage profileImage;
     
     @OneToMany(mappedBy = "account")

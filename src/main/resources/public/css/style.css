@@ -91,6 +91,15 @@ section.section.section--feed-form {
     margin-right: 1em;
 }
 /* Comments */
+.message-action--load-more {
+    border-top: 1px solid #eee;
+    display: block;
+    padding: 1em 1em;
+    font-size: .8em;
+    background: #f7f7f7;
+    margin-bottom: 5px;
+}
+
 .comment-content--container {
     padding-bottom: .5rem;
     padding-top: 0.5rem;

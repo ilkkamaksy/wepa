@@ -34,7 +34,7 @@ public class FriendController {
     @GetMapping("/users/{slug}/friends")
     public String acceptFriendRequest(Model model, @PathVariable String slug) {
         Account currentUser = this.accountService.getCurrentUserAccount();
-        model.addAttribute("friends", this.friendRepository.findAllByAccountId(currentUser.getId()));
+        model.addAttribute("friends", this.friendRepository.findByUserId(currentUser.getId()));
         model.addAttribute("currentUser", currentUser);
         
         return "friends";

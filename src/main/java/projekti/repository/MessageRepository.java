@@ -9,4 +9,5 @@ import org.springframework.data.jpa.repository.Query;
 public interface MessageRepository extends JpaRepository<Message, Long> {
 
     Page<Message> findByUserId(Long accountId, Pageable pageable);
+    
 }

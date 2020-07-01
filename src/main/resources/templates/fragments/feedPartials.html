@@ -7,6 +7,7 @@
     </head>
     <body>
 
+        <!-- fragment for looping over initially loaded messages -->
         <div id="main-message-feed" class="message-feed--container" th:fragment="messageFeed">
             <div th:each="message : ${messages}">
                 <div th:replace="fragments/feedPartials :: messageContainer(item=${message})">
@@ -15,7 +16,8 @@
             </div>
         </div>
         
-        <div class="message-content--container" th:fragment="messageContainer(item)">
+        <!-- fragment for displaying message container -->
+        <div th:id="${'message-' + item.id}" class="message-content--container" th:fragment="messageContainer(item)">
             <article class="media">
                 <figure class="media-left" th:replace="fragments/userCards :: mediaLeft(user=${item.user})">
                    Image
@@ -27,9 +29,14 @@
                     <nav class="level is-mobile" th:replace="fragments/feedPartials :: messageNav(item=${item})">
                         Message Nav
                     </nav>
-                    <div th:replace="fragments/forms :: commentForm(parent=${item})">
+                    <div th:replace="fragments/forms :: commentForm(item=${item})">
                         commentForm
                     </div>
+                    
+                    <div th:replace="fragments/feedPartials :: messageActionContainer(item=${item})">
+                        message actions
+                    </div>
+
                     <div th:each="comment : ${message.comments}">
                         <div th:replace="fragments/feedPartials :: commentContainer(item=${comment})">
                             commentContent
@@ -38,8 +45,30 @@
                 </div>        
             </article>
         </div>
+
+        <!-- fragment for displaying load more comments action link and ajax loaded comments target element -->
+        <div class="message-action--container" th:fragment="messageActionContainer(item)">
+            <div th:if="${#lists.size(item.comments) < item.commentCount}">
+                <a class="message-action--load-more" 
+                   th:attr="data-id=${item.id}, data-paged=${paged}, data-count=${#lists.size(item.comments)}, data-max=${item.commentCount}"
+                   th:href="@{/messages/{id}/comments(id=${item.id})}">
+                    Load more previous comments
+                </a> 
+            </div>
+            <div th:id="'comments-parent-' + ${item.id}"></div>
+        </div>
+
+        <!-- fragment for looping over ajax loaded comments -->
+        <div class="comments-container--paged" th:fragment="ajaxCommentsContainer">
+            <div th:each="comment : ${message.comments}">
+                <div th:replace="fragments/feedPartials :: commentContainer(item=${comment})">
+                    commentContent
+                </div>
+            </div>
+        </div>
         
-        <div class="comment-content--container" th:fragment="commentContainer(item)">
+        <!-- fragment for displaying comment container -->
+        <div th:id="'comment-' + ${item.id}" class="comment-content--container" th:fragment="commentContainer(item)">
             <article class="media">
                 <figure class="media-left" th:replace="fragments/userCards :: mediaLeft(user=${item.user})">
                    Image
@@ -51,18 +80,22 @@
                     <nav class="level is-mobile" th:replace="fragments/feedPartials :: messageNav(item=${item})">
                         Message Nav
                     </nav>
-                    <div th:replace="fragments/forms :: commentForm(parent=${item})">
+                    <div th:replace="fragments/forms :: commentForm(item=${item})">
                         commentForm
                     </div>
-                    <div th:each="child : ${item.children}">
-                        <div th:replace="fragments/feedPartials :: commentContainer(item=${child})">
-                            commentContent
-                        </div>
+                    <div th:id="'comment-children-' + ${item.id}">
+                        <div th:id="'comment-child-' + ${child.id}" th:each="child : ${item.comments}">
+                            <div th:replace="fragments/feedPartials :: commentContainer(item=${child})">
+                                commentContent
+                            </div>
+                        </div>    
                     </div>
+                    
                 </div>
             </article>
         </div>
         
+        <!-- fragment for displaying message content -->
         <div class="content" th:fragment="messageContent(item)">
             <p>
                 <a class="message-meta--author-url" th:text="${item.user.name}" th:href="@{/users/{slug}(slug=${item.user.slug})}">author</a>
@@ -72,15 +105,21 @@
             <div class="message-content--text" th:text="${item.content}">cmt</div>
         </div>
         
-        <nav class="level is-mobile" th:fragment="messageNav(item)">
+        <!-- fragment for displaying message nav -->
+        <nav th:id="'comment-nav-' + ${item.id}" class="level is-mobile" th:fragment="messageNav(item)">
             <div class="level-left">
               <a class="level-item action-reply" href="#" th:attr="data-form=${item.id}">
                    Reply
               </a>
+              <span 
+                    class="message-reply-count level-item" 
+                    th:id="'reply-count-' + ${item.id}" 
+                    th:text="${item.commentCount != null ? item.commentCount : 0} + ' comments'"
+                    >Comment Count</span>
               <div class="level-item">
                   <a class="message-action" 
                      th:if="${#lists.size(item.upVotes.?[user.username == #authentication.getPrincipal().getUsername()]) == 0}"
-                     th:href="${item instanceof T(projekti.model.Message)} ? @{/messages/{id}/upvote?page=0&slug={slug}(id=${item.id}, slug=${user != null ? user.slug : ''})} : @{/comments/{id}/upvote?page=0&slug={slug}(id=${item.id}, slug=${user != null ? user.slug : ''})}"
+                     th:href="${item instanceof T(projekti.model.Message)} ? @{/messages/{id}/upvote?slug={slug}(id=${item.id},slug=${user != null ? user.slug : ''})} : @{/comments/{id}/upvote?slug={slug}(id=${item.id}, slug=${user != null ? user.slug : ''})}"
                      th:attr="data-id=${item.id}"
                      >
                       Up vote</a>

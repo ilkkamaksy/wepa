@@ -1,9 +1,12 @@
 package projekti.service;
 
+import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import projekti.model.Comment;
 import projekti.repository.CommentRepository;
@@ -19,13 +22,19 @@ public class CommentService {
     public List<Comment> getAllComments() {
         return this.commentRepository.findAll();
     }
-    
-    public Page<Comment> getAllCommentsPaginated(Pageable pageable) {
-        return this.commentRepository.findAll(pageable);
+   
+    public List<Comment> getCommentsBatchByMessage(Long messageId) {
+        Pageable pageable = PageRequest.of(0, 2, Sort.by("pubDateTime").descending());
+        List<Comment> comments = this.commentRepository.findByMessageId(messageId, pageable);
+        Collections.reverse(comments);
+        return comments;
     }
     
-    public Page<Comment> getCommentsByMessagePaginated(Message message, Pageable pageable) {
-        return this.commentRepository.findByMessageId(message.getId(), pageable);
+    public List<Comment> getCommentsBatchByMessage(Long messageId, Integer page) {
+        Pageable pageable = PageRequest.of(page, 2, Sort.by("pubDateTime").descending());
+        List<Comment> comments = this.commentRepository.findByMessageId(messageId, pageable);
+        Collections.reverse(comments);
+        return comments;
     }
     
     public Comment getCommentById(Long id) {

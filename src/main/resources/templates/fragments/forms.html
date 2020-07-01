@@ -21,7 +21,7 @@
             </form>
         </div>
     
-        <div class="comment-form" th:id="${'comment-form-' + parent.id}" th:fragment="commentForm(parent)">
+        <div class="comment-form" th:id="${'comment-form-' + item.id}" th:fragment="commentForm(item)">
             <h2 class="title is-6 is-spaced bd-anchor-title">Reply</h2>
             <div class="media">
                 <figure class="media-left" th:replace="fragments/userCards :: mediaLeft(user=${currentUser})">
@@ -30,7 +30,8 @@
                 <div class="media-content">
                     <form class="comments--comment-form" 
                           method="POST" 
-                          th:action="${parent instanceof T(projekti.model.Message)} ? @{/messages/{id}/comment(id=${message.id})} : @{/comments/{id}(id=${comment.id})}"
+                          th:attr="data-id=${item.id}, data-type=${item instanceof T(projekti.model.Message) ? 'message' : 'comment'}"
+                          th:action="${item instanceof T(projekti.model.Message)} ? @{/messages/{id}/comment(id=${item.id})} : @{/comments/{id}(id=${item.id})}"
                           >
                         <div class="field">
                             <div class="control">
@@ -39,7 +40,7 @@
                         </div>
                         <div class="control">
                             <input class="paged hidden" type="number" value="0" />
-                            <input class="user-slug" type="hidden" th:value="${user} != null ? ${user.slug} : ''" />
+                            <input class="user-slug" type="hidden" th:value="${currentUser} != null ? ${currentUser.slug} : ''" />
                             <input class="button is-primary" type="submit" value="Reply"/>
                          </div>
                     </form>

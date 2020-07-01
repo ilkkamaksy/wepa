@@ -9,9 +9,13 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
+import javax.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Formula;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 import projekti.model.Account;
 
@@ -28,7 +32,7 @@ public class Comment extends AbstractPersistable<Long> {
     private Comment parent;
     
     @OneToMany(mappedBy = "parent")
-    private List<Comment> children;
+    private List<Comment> comments;
     
     @ManyToOne
     @JoinColumn(name = "account_id")
@@ -40,4 +44,8 @@ public class Comment extends AbstractPersistable<Long> {
 
     @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL)
     private List<UpVoteComment> upVotes = new ArrayList<>();
+    
+    @Formula("SELECT COUNT(c.id) FROM Comment c WHERE c.parent_id = id")
+    private Long commentCount;
+    
 }

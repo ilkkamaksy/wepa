@@ -27,6 +27,6 @@ public class Friend extends AbstractPersistable<Long> {
     
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private FriendshipStatus FriendshipStatus;
+    private FriendshipStatus friendshipStatus;
     
 }
