@@ -1,4 +1,4 @@
-# wepa
+# WePa - Office space web app
 
 A small old school "social media" web app made with Java Spring.
 
